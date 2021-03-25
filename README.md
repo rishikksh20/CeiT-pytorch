@@ -1,4 +1,4 @@
-# CeiT
+# CeiT : Convolutional enhanced image Transformer
 [Incorporating Convolution Designs into Visual Transformers](https://arxiv.org/abs/2103.11816)
 
 ## Note :

@@ -3,7 +3,7 @@ from torch import nn, einsum
 import torch.nn.functional as F
 from einops import rearrange, repeat
 from einops.layers.torch import Rearrange
-from module import Residual, Attention, PreNorm, LeFF, FeedForward
+from module import Residual, Attention, PreNorm, LeFF, FeedForward, LCAttention
 
 class TransformerLeFF(nn.Module):
     def __init__(self, dim, depth, heads, dim_head, scale = 4, depth_kernel = 3, dropout = 0.):
@@ -27,14 +27,14 @@ class TransformerLeFF(nn.Module):
 
 
 class LCA(nn.Module):
-    
-    def __init__(self, dim, depth, heads, dim_head, mlp_dim, dropout = 0.):
+    # I remove Residual connection from here, in paper author didn't explicitly mentioned to use Residual connection, 
+    # so I removed it, althougth with Residual connection also this code will work.
+    def __init__(self, dim, heads, dim_head, mlp_dim, dropout = 0.):
         super().__init__()
         self.layers = nn.ModuleList([])
-        for _ in range(depth):
-            self.layers.append(nn.ModuleList([
-                Residual(PreNorm(dim, Attention(dim, heads = heads, dim_head = dim_head, dropout = dropout))),
-                Residual(PreNorm(dim, FeedForward(dim, mlp_dim, dropout = dropout)))
+        self.layers.append(nn.ModuleList([
+                PreNorm(dim, LCAttention(dim, heads = heads, dim_head = dim_head, dropout = dropout)),
+                PreNorm(dim, FeedForward(dim, mlp_dim, dropout = dropout))
             ]))
     def forward(self, x):
         for attn, ff in self.layers:
@@ -47,7 +47,7 @@ class LCA(nn.Module):
   
 class CeiT(nn.Module):
     def __init__(self, image_size, patch_size, num_classes, dim = 192, depth = 12, heads = 3, pool = 'cls', channels = 3, dim_head = 64, dropout = 0., 
-                 emb_dropout = 0., conv_kernel = 7, stride = 2, depth_kernel = 3, pool_kernel = 3, scale_dim = 4):
+                 emb_dropout = 0., conv_kernel = 7, stride = 2, depth_kernel = 3, pool_kernel = 3, scale_dim = 4, with_lca = False):
         super().__init__()
         
         assert pool in {'cls', 'mean'}, 'pool type must be either cls (cls token) or mean (mean pooling)'
@@ -73,6 +73,10 @@ class CeiT(nn.Module):
         self.dropout = nn.Dropout(emb_dropout)
 
         self.transformer = TransformerLeFF(dim, depth, heads, dim_head, scale_dim, depth_kernel, dropout)
+        
+        self.with_lca = with_lca
+        if with_lca:
+            self.LCA = LCA(dim, 4, 48, 384)
 
         self.pool = pool
         self.to_latent = nn.Identity()
@@ -94,8 +98,28 @@ class CeiT(nn.Module):
         
         x, c = self.transformer(x)
         
-
-        x = x.mean(dim = 1) if self.pool == 'mean' else x[:, 0]
+        if self.with_lca:
+            x = self.LCA(c)[:, -1]
+        else:    
+            x = x.mean(dim = 1) if self.pool == 'mean' else x[:, 0]
 
         x = self.to_latent(x)
         return self.mlp_head(x)
+    
+    
+    
+
+if __name__ == "__main__":
+    
+    img = torch.ones([1, 3, 224, 224])
+    
+    model = CeiT(224, 4, 100)
+    
+    out = model(img)
+    
+    print("Shape of out :", out.shape)      # [B, num_classes]
+    
+    model = CeiT(224, 4, 100, with_lca = True)
+    out = model(img)
+    
+    print("Shape of out :", out.shape)      # [B, num_classes]

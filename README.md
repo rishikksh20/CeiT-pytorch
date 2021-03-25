@@ -12,3 +12,6 @@
       primaryClass={cs.CV}
 }
 ```
+
+## Acknowledgement
+* Base ViT code is from this repo : https://github.com/lucidrains/vit-pytorch

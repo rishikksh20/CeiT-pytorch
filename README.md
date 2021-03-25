@@ -1,5 +1,8 @@
-# CeiT
-[Incorporating Convolution Designs into Visual Transformers](https://arxiv.org/abs/2103.11816)
+# CeiT : Convolutional enhanced image Transformer
+This is an unofficial PyTorch implementation of [Incorporating Convolution Designs into Visual Transformers](https://arxiv.org/abs/2103.11816) .
+
+## Note :
+* LCA implementation is incomplete although the code is usable even without it.
 
 ## Citation
 ```
@@ -12,3 +15,6 @@
       primaryClass={cs.CV}
 }
 ```
+
+## Acknowledgement
+* Base ViT code is from [@lucidrains](https://github.com/lucidrains) repo : https://github.com/lucidrains/vit-pytorch

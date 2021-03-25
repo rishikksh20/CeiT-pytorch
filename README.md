@@ -17,4 +17,4 @@
 ```
 
 ## Acknowledgement
-* Base ViT code is from this repo : https://github.com/lucidrains/vit-pytorch
+* Base ViT code is from [@lucidrains](https://github.com/lucidrains) repo : https://github.com/lucidrains/vit-pytorch

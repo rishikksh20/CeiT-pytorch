@@ -135,14 +135,9 @@ class LeFF(nn.Module):
                                     )
         
     def forward(self, x):
-        # x : [B, n+1, dim]
-        # c = x[:, 0]
-        # y = x[:, 1:]
         x = self.up_proj(x)
         x = self.depth_conv(x)
         x = self.down_proj(x)
-        # y = torch.cat((c, y), 1)
-        # assert x.shape == y.shape
         return x
     
     

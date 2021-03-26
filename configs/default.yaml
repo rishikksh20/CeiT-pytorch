@@ -1,0 +1,43 @@
+data:
+  dataset: "cifar100" # ["cifar10", "cifar100"]
+  path: "./data"
+  image_size: 224
+  outdir: "./output"
+
+model:
+  patch_size: 4
+  num_classes: 100
+  in_channels: 3
+  out_channels: 32
+  dim: 192
+  dim_head: 64
+  depth: 12
+  heads: 3
+  conv_kernel: 7
+  stride: 2
+  depth_kernel: 3
+  pool_kernel: 2
+  pool_stride: 2
+  scale_dim: 4
+  with_lca: True
+  lca_dim: 192
+  lca_heads: 4
+  lca_dim_head: 48
+  lca_mlp_dim: 384
+  dropout: 0.
+  pool: 'cls' # ['cls', 'mean']
+  emb_dropout: 0.
+
+train:
+  batch: 64
+  valid_batch: 32
+  valid_step: 500
+  num_steps: 100000
+  accum_grad: 1
+  lr: 0.001
+  weight_decay: 0.05
+  decay_type: "cosine" # ["cosine", "linear"]
+  grad_clip: 1.0
+  warmup_steps: 3500
+  seed: 1992
+  ngpu: 1

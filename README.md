@@ -2,6 +2,13 @@
 This is an unofficial PyTorch implementation of [Incorporating Convolution Designs into Visual Transformers](https://arxiv.org/abs/2103.11816) .
 ![](assets/model1.PNG)
 ![](assets/model2.PNG)
+
+
+
+## Training
+```
+python train.py -c configs/default.yaml --name "name_of_exp"
+```
 ## Usage :
 ```python
 import torch

@@ -5,7 +5,7 @@ This is an unofficial PyTorch implementation of [Incorporating Convolution Desig
 
 
 
-## Training
+## Training :
 ```
 python train.py -c configs/default.yaml --name "name_of_exp"
 ```
@@ -30,9 +30,9 @@ print("Shape of out :", out.shape)      # [B, num_classes]
 
 
 ## Note :
-* LCA implementation is incomplete although the code is usable even without it.
+* LCA might not be properly implemented.
 
-## Citation
+## Citation :
 ```
 @misc{yuan2021incorporating,
       title={Incorporating Convolution Designs into Visual Transformers}, 
@@ -44,6 +44,6 @@ print("Shape of out :", out.shape)      # [B, num_classes]
 }
 ```
 
-## Acknowledgement
+## Acknowledgement :
 * Base ViT code is borrowed from [@lucidrains](https://github.com/lucidrains) repo : https://github.com/lucidrains/vit-pytorch
 * Training and dataloader code is borrowed from [@jeonsworld](https://github.com/jeonsworld) repo : https://github.com/jeonsworld/ViT-pytorch

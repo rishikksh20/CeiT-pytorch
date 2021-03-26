@@ -45,4 +45,5 @@ print("Shape of out :", out.shape)      # [B, num_classes]
 ```
 
 ## Acknowledgement
-* Base ViT code is from [@lucidrains](https://github.com/lucidrains) repo : https://github.com/lucidrains/vit-pytorch
+* Base ViT code is borrowed from [@lucidrains](https://github.com/lucidrains) repo : https://github.com/lucidrains/vit-pytorch
+* Training and dataloader code is borrowed from [@jeonsworld](https://github.com/jeonsworld) repo : https://github.com/jeonsworld/ViT-pytorch

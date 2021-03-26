@@ -1,7 +1,7 @@
 # CeiT : Convolutional enhanced image Transformer
 This is an unofficial PyTorch implementation of [Incorporating Convolution Designs into Visual Transformers](https://arxiv.org/abs/2103.11816) .
-
-
+![](assets/model1.PNG)
+![](assets/model2.PNG)
 ## Usage :
 ```python
 import torch

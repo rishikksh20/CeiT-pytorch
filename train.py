@@ -199,8 +199,9 @@ def train(local_rank, args, hp, model):
             if (step + 1) % hp.train.accum_grad == 0:
                 losses.update(loss.item()*hp.train.accum_grad)
                 torch.nn.utils.clip_grad_norm_(model.parameters(), hp.train.grad_clip)
-                scheduler.step()
+                
                 optimizer.step()
+                scheduler.step()
                 optimizer.zero_grad()
                 global_step += 1
 
